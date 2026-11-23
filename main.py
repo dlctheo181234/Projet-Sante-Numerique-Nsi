@@ -1,14 +1,12 @@
 import pygame
 import numpy as np
-
-Map_Width = 1080
-Map_Height = 1920
-
+from mapgen import Map
+Map_Width = 1920
+Map_Height = 1080
+tile_size = 4
+W, H = Map_Width // tile_size, Map_Height // tile_size
 pygame.init()
 
-
-class MapManager()
-   [A faire] 
 
 class Game:
     DEBUG = False  # Mettre à True pour activer le mode debug (dessin des hitboxes)
@@ -16,30 +14,24 @@ class Game:
         self.screen = pygame.display.set_mode((1920,1080), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("TEST EPIDEMIE")
-        self.map_manager = MapManager(self.screen, self.player, self.DEBUG)
+        self.map = Map(W, H)
 
     def draw(self):
         self.screen.fill((0, 0, 0))
-        self.map_manager.draw()
+        self.screen.blit(self.map.image, (0, 0))
 
     def run(self):
         running = True
-
+        regen=False
         while running:
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.VIDEORESIZE:
-                    self.map_manager.on_resize()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
-                        self.map_manager.reload_map(self.map_manager.map_path)
-                    elif event.key == pygame.K_i:
-                        self.map_manager.change_map()
-                    elif event.key == pygame.K_ESCAPE:
-                        running = False
-            self.map_manager.update(0.5)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.map.graine = np.random.randint(0, 1_000_000); regen = True
+            if regen:
+                    self.map.generer()
+                    info = ""
             self.draw()
 
             pygame.display.flip()
