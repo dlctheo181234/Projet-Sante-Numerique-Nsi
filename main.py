@@ -11,14 +11,14 @@ pygame.init()
 class Game:
     DEBUG = False  # Mettre à True pour activer le mode debug (dessin des hitboxes)
     def __init__(self):
-        self.screen = pygame.display.set_mode((1920,1080), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((1920/1.5,1080/1.5), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("TEST EPIDEMIE")
         self.map = Map(W, H)
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
-        self.screen.blit(self.map.image, (0, 0))
+        self.screen.fill((40, 40, 40))
+        #self.screen.blit(self.map.image, (0, 0))
 
     def run(self):
         running = True
@@ -36,6 +36,7 @@ class Game:
 
             pygame.display.flip()
             self.clock.tick(60)
+
 
 if __name__ == '__main__':
     
