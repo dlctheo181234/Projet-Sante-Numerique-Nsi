@@ -41,31 +41,28 @@ class Game:
 
 
 def gen_list_btp(nb, type, w, h,):
-    L = [] # liste de Mr Belgharbi
     for i in range(nb):
         a = Batiment(type, 0, 0, w, h) #Ils se démerdent après pour les coords.
-        L.append(a)
+        Lbat.append(a)
         a.collide(Lbat)
-    Lbat.append(L)
-    print(L)
-    return L
+    print(Lbat)
+    return Lbat
 
 def draw_scr():        
-        for sous_liste in Lbat:
-            for bat in sous_liste:
+        for i in Lbat:
                 
                 # Définir une couleur selon le type de bâtiment
-                if bat.type == "maison":
+                if i.type == "maison":
                     couleur = (100, 150, 200)  # Bleu pour les maisons
-                elif bat.type == "CC":
+                elif i.type == "CC":
                     couleur = (200, 100, 100)
                 
                 # Calculer la position et la taille en tenant compte de tile_size
                 rect = (
-                    bat.x * tile_size, 
-                    bat.y * tile_size, 
-                    bat.w * tile_size, 
-                    bat.h * tile_size
+                    i.x * tile_size, 
+                    i.y * tile_size, 
+                    i.w * tile_size, 
+                    i.h * tile_size
                 )
 
                 # Dessiner le rectangle sur l'écran
