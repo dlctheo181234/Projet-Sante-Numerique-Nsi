@@ -1,9 +1,11 @@
 import pygame
 import numpy as np
-from mapgen import Map
+from btp import *
+#from mapgen import Map
 Map_Width = 1920
 Map_Height = 1080
 tile_size = 4
+Lbat = []
 W, H = Map_Width // tile_size, Map_Height // tile_size
 pygame.init()
 
@@ -14,11 +16,11 @@ class Game:
         self.screen = pygame.display.set_mode((1920/1.5,1080/1.5), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("TEST EPIDEMIE")
-        self.map = Map(W, H)
+        self.Lm =gen_list_btp(5, "maison", 20, 50)
 
     def draw(self):
         self.screen.fill((40, 40, 40))
-        #self.screen.blit(self.map.image, (0, 0))
+        draw_scr()
 
     def run(self):
         running = True
@@ -37,6 +39,39 @@ class Game:
             pygame.display.flip()
             self.clock.tick(60)
 
+
+def gen_list_btp(nb, type, w, h,):
+    L = [] # liste de Mr Belgharbi
+    for i in range(nb):
+        a = Batiment(type, 0, 0, w, h) #Ils se démerdent après pour les coords.
+        L.append(a)
+        a.collide(Lbat)
+    Lbat.append(L)
+    print(L)
+    return L
+
+def draw_scr():        
+        for sous_liste in Lbat:
+            for bat in sous_liste:
+                
+                # Définir une couleur selon le type de bâtiment
+                if bat.type == "maison":
+                    couleur = (100, 150, 200)  # Bleu pour les maisons
+                elif bat.type == "CC":
+                    couleur = (200, 100, 100)
+                
+                # Calculer la position et la taille en tenant compte de tile_size
+                rect = (
+                    bat.x * tile_size, 
+                    bat.y * tile_size, 
+                    bat.w * tile_size, 
+                    bat.h * tile_size
+                )
+
+                # Dessiner le rectangle sur l'écran
+                pygame.draw.rect(game.screen, couleur, rect)
+                
+        # self.screen.blit(self.map.image, (0, 0))
 
 if __name__ == '__main__':
     
